@@ -8,17 +8,16 @@
 #include<cmath>
 #include<iomanip>
 
-using namespace std; 
+using namespace std;
 
-double root1, root2, discrim, a, b, c;
-bool findAgain = 1; 
+bool findAgain = 1;
 
 void displayInstructions()
 {
-	cout << "Hello! This program will solve Quadratic Equations for reall roots. When prompted, enter variables A, B, C." << endl; 
+	cout << "Hello! This program will solve Quadratic Equations for real roots. When prompted, enter variables A, B, C." << endl;
 }
 
-double getCoefficients()
+int getCoefficients(int& a, int& b, int& c)
 {
 	cout << "Enter value A: " << "\n";
 	cin >> a;
@@ -30,24 +29,24 @@ double getCoefficients()
 	return a, b, c;
 }
 
-double calculateDiscriminant()
+int calculateDiscriminant(int& a, int &b, int &c)
 {
 	return(((b * b) - (4 * a * c)));
 }
 
-double calculateRoots(int i)
+double calculateRoots(int i, double discrim, const int a, const int b)
 {
+	double root1, root2; 
+
 	if (discrim > 0)
 	{
 		if (i == 1)
 		{
-			root1 = (((-b) + sqrt(discrim)) / (2 * a));
-			return(root1);
+			return(((-b) + sqrt(discrim)) / (2 * a));
 		}
 		else
 		{
-			root2 = ((-b) - sqrt(discrim)) / (2 * a);
-			return(root2);
+			return(((-b) - sqrt(discrim)) / (2 * a));
 		}
 	}
 	else if (discrim == 0)
@@ -56,33 +55,35 @@ double calculateRoots(int i)
 	}
 	else
 	{
-		return NULL; 
+		return NULL;
 	}
 }
 
 int main()
 {
-	while(findAgain == 1)
+	while (findAgain == 1)
 	{
-		displayInstructions(); 
+		displayInstructions();
 
-		getCoefficients(); 
+		int a, b, c, discrim;
 
-		if (calculateDiscriminant() < 0)
+		getCoefficients(a,b,c);
+
+		discrim = calculateDiscriminant(a, b, c);
+
+		if(discrim < 0)
 		{
 			cout << "Non-real answer." << endl;
 		}
 		else
 		{
-			cout << "Discriminant : sqrt(" << calculateDiscriminant() << ")" << endl;
+			cout << "Discriminant : sqrt(" << discrim << ")" << endl;
 
-			cout << "Root 1: " << fixed << setprecision(3) << calculateRoots(1) << "\n"
-				<< "Root 2: " << fixed << setprecision(3) << calculateRoots(2) << endl;
+			cout << "Root 1: " << fixed << setprecision(3) << calculateRoots(1, discrim, a, b) << "\n"
+				<< "Root 2: " << fixed << setprecision(3) << calculateRoots(2, discrim, a, b) << endl;
 		}
 
 		cout << "Would you like to find another Quadratic? 1 for Yes, 0 for No : " << endl;
-		cin >> findAgain; 
+		cin >> findAgain;
 	}
 }
-
-
